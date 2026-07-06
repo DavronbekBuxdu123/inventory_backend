@@ -1,6 +1,6 @@
 # 🚀 Project Name: Inventory Management Application
 
-Bu loyiha ombor zaxiralari va mahsulotlar harakatini boshqarish uchun mo'ljallangan backend tizimidir.
+Bu loyiha ombor zaxiralari va mahsulotlar harakatini boshqarish uchun mo'ljallangan backend tizimi
 
 ## 📊 API Documentation (Swagger)
 
