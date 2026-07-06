@@ -21,7 +21,25 @@ class StockMovementSerializer(serializers.ModelSerializer):
      product_name=serializers.CharField(source='product.name',read_only=True) 
      product_sku=serializers.CharField(source='product.sku',read_only=True)
      formatted_date=serializers.DateTimeField(source='created_at',format='%Y-%m-%d %H:%M',read_only=True) 
-      
+
      class Meta:
           model=StockMovement
           fields=['id','product','product_name','product_sku','quantity','movement_type','created_at','formatted_date']
+
+     def create(self, validated_data):
+        product = validated_data['product']
+        quantity = validated_data['quantity']
+        movement_type = validated_data['movement_type']
+
+        if movement_type == 'IN':
+            product.current_stock += quantity
+        elif movement_type == 'OUT':
+            if product.current_stock >= quantity:
+                product.current_stock -= quantity
+            else:
+                raise serializers.ValidationError(
+                    {"quantity": f"Omborda yetarli mahsulot yo'q! Hozirgi qoldiq: {product.current_stock} dona."}
+                )
+        product.save()
+
+        return super().create(validated_data)     
